@@ -98,6 +98,9 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
+for_window [class="Yad" title="yad-calendar"] floating enable
+
+
 # focus the parent container
 bindsym $mod+a focus parent
 
@@ -199,12 +202,15 @@ mode "$mode_system" {
 }
 bindsym $mod+BackSpace mode "$mode_system"
 
-#arranges the monitors
+#Arranges The Monitors
 #BS
-#exec xrandr --output HDMI-1-1 --mode 1920x1080 --right-of eDP-1
+exec xrandr --output HDMI-1-1 --mode 1920x1080 --right-of eDP-1
 #Istanbul
-exec randr --output HDMI-1-1 --mode 1920x1080 --left-of eDP-1
+#exec xrandr --output HDMI-1-0 --mode 1920x1080 --right-of eDP-1
 
+
+#Refreshes The Sources
+#exec pacman -Syy
 
 #sets wallpaper
 exec nitrogen --set-tiled /$HOME/Downloads/alanturing.png
@@ -220,7 +226,7 @@ exec  /home/taymazturkmen/.config/polybar/launch.sh
 exec dunst
 
 #Dropbox
-exec Dropbox
+exec dropbox
 
 # Flameshot
 bindsym Print exec flameshot screen --clipboard
@@ -239,7 +245,7 @@ bindsym XF86MonBrightnessDown exec brightnessctl -d intel_backlight s 20%-
 exec blueman-applet
 
 # Rofi
-bindsym $mod+d exec --no-startup-id rofi -show combi
+bindsym $mod+d exec --no-startup-id rofi -show drun
 #bindsym $mod+d exec dmenu_run
 
 for_window [class="^.*"] border pixel 1
