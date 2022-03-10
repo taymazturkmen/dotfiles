@@ -17,19 +17,22 @@ font-0 = "FiraCode Nerd Font:pixelsize=12;2"
 font-1 = "Source Sans Variable:pixelsize=11;2"
 font-2 = "Inter:pixelsize=12:style=Bold;2"
 font-3 = "Inter:pixelsize=12;2"
+font-4 = cryptocoins:style=Regular;0
+font-5 = FontAwesome:style=Regular:pixelsize=17
 
-monitor = ${env:MONITOR}
+monitor = ${env:MONITOR:}
 monitor-fallback = eDP-1
 
 background = ${colors.bg}
 foreground = ${colors.fg}
+enable-ipc = true
 
 width = 100%
 height = 25
 
-modules-left = i3
+modules-left = i3 todoist pulseaudio-control dunst
 modules-center = xwindow
-modules-right = xkeyboard filesystem wlan pulseaudio battery date
+modules-right = player-mpris-tail popup-calendar xkeyboard filesystem wlan pulseaudio battery date
 
 padding-left = 2
 padding-right = 0
@@ -145,4 +148,66 @@ label-indicator-on-capslock = " but louder"
 label-indicator-on-capslock-font = 2 
 label-indicator-on-capslock-foreground = ${colors.red}
 
+[module/popup-calendar]
+type = custom/script
+exec = ~/polybar-scripts/popup-calendar.sh
+interval = 5
+click-left = ~/polybar-scripts/popup-calendar.sh --popup &
+#If you use a tiling window manager you should enable floating for yad-calendar. This example is for i3wm:
+#for_window [class="Yad" title="yad-calendar"] floating enable
 
+
+
+[module/player-mpris-tail]
+type = custom/script
+exec = ~/polybar-scripts/player-mpris-tail.py -f '{icon} {artist} - {title}'
+tail = true
+click-left = ~/polybar-scripts/player-mpris-tail.py previous &
+click-right = ~/polybar-scripts/player-mpris-tail.py next &
+click-middle = ~/polybar-scripts/player-mpris-tail.py play-pause &
+
+[module/todoist]
+
+type = custom/script
+exec = python -u ~/polybar-scripts/polybar-todoist.py
+tail = true
+click-left = xdg-open https://todoist.com
+
+
+[module/pulseaudio-control]
+type = custom/script
+tail = true
+format-underline = ${colors.cyan}
+label-padding = 2
+label-foreground = ${colors.foreground}
+
+# Icons mixed from Font Awesome 5 and Material Icons
+# You can copy-paste your options for each possible action, which is more
+# trouble-free but repetitive, or apply only the relevant ones (for example
+# --sink-blacklist is only needed for next-sink).
+exec = pulseaudio-control --icons-volume " , " --icon-muted " " --sink-nicknames-from "device.description" --sink-nickname "alsa_output.pci-0000_00_1b.0.analog-stereo:  Speakers" --sink-nickname "alsa_output.usb-Kingston_HyperX_Virtual_Surround_Sound_00000000-00.analog-stereo:  Headphones" listen
+click-right = exec pavucontrol &
+click-left = pulseaudio-control togmute
+click-middle = pulseaudio-control --sink-blacklist "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2" next-sink
+scroll-up = pulseaudio-control --volume-max 130 up
+scroll-down = pulseaudio-control --volume-max 130 down
+
+[module/sinkswitch]
+type = custom/script
+exec = /home/taymazturkmen/polybar-scripts/sink-switch.sh
+interval = 1500
+click-left = /home/user/scripts/sink-switch.sh --speakers &
+click-right = /home/user/scripts/sink-switch.sh --headphones &
+
+[module/crypto]
+type = custom/script
+interval = 300
+exec = /home/taymazturkmen/polybar-scripts/polybar-crypto/crypto.py
+
+[module/dunst]
+type = custom/ipc
+initial = 1
+format-foreground = ${colors.yellow}
+
+hook-0 = echo "%{A1:dunstctl set-paused true  && polybar-msg hook dunst 2:}NM%{A}" &
+hook-1 = echo "%{A1:dunstctl set-paused false && polybar-msg hook dunst 1:}M%{A}" &

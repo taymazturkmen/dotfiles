@@ -177,7 +177,7 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-bindsym $mod+Tab workspace next
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
@@ -202,18 +202,15 @@ mode "$mode_system" {
 }
 bindsym $mod+BackSpace mode "$mode_system"
 
-exec setxkbmap -layout us,tr
-exec setxkbmap -option 'grp:alt_shift_toggle'
+exec "setxkbmap -layout us,tr"
+exec "setxkbmap -option 'grp:alt_shift_toggle'"
 
 
 #Arranges The Monitors
 #BS
-#exec xrandr --output HDMI-1-0 --mode 1920x1080 --right-of eDP-1
+exec xrandr --output HDMI-1-0 --mode 1920x1080 --right-of eDP-1
 #Istanbul
 #exec xrandr --output HDMI-1-0 --mode 1920x1080 --left-of eDP-1
-#exec xrandr --auto
-#exec xrandr--output HDMI-1-0 --right-of eDP-1
-exec /home/taymazturkmen/xrandr_Startup.sh
 
 
 #Refreshes The Sources
@@ -221,7 +218,6 @@ exec /home/taymazturkmen/xrandr_Startup.sh
 
 #sets wallpaper
 exec nitrogen --set-tiled /$HOME/Downloads/alanturing.png
-exec caffeine
 
 #starts compositor
 exec --no-startup-id picom -CGb
@@ -239,22 +235,21 @@ exec dropbox
 # Flameshot
 bindsym Print exec flameshot screen --clipboard
 bindsym Control+Print exec flameshot gui
-
+	
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # Brightness control
-bindsym XF86MonBrightnessUp exec brightnessctl -d intel_backlight s 20%+
+brabindsym XF86MonBrightnessUp exec brightnessctl -d intel_backlight s 20%+
 bindsym XF86MonBrightnessDown exec brightnessctl -d intel_backlight s 20%-
 
 #Bluetooth Manager
 #exec blueman-applet
 exec optimus-manager-qt
 # Rofi
-#bindsym $mod+d exec --no-startup-id rofi -show drun
-bindsym $mod+d exec --no-startup-id "rofi -show combi -combi-modi window,drun,run -modi combi"
+bindsym $mod+d exec --no-startup-id rofi -show drun
 #bindsym $mod+d exec dmenu_run
 
 for_window [class="^.*"] border pixel 1

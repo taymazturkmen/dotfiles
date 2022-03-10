@@ -39,6 +39,7 @@ window:
   x: 8
   y: 8
 
-  startup_mode: Maximized
+window:
+  opacity: 0.9
 
-background_opacity: 0.9
+  startup_mode: Maximized
