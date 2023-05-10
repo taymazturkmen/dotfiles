@@ -6,3 +6,8 @@ if type -q exa
   alias ll "exa -l -g --icons"
   alias lla "ll -a"
 end
+
+colorscript -e panes
+
+alias g git
+set  PATH /home/taymazturkmen/anaconda3/bin $PATH
