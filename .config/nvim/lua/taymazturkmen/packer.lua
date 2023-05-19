@@ -40,9 +40,6 @@ return require('packer').startup(function(use)
   -- Plugins can have post-install/update hooks
   use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
 
-  -- Post-install/update hook with neovim command
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-
   -- Post-install/update hook with call of vimscript function with argument
   use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
   
@@ -54,9 +51,7 @@ return require('packer').startup(function(use)
 
   -- You can alias plugin names
   use {'dracula/vim', as = 'dracula'}
-
-  use 'github/copilot.vim'
-
+  
   use {
 	  'nvim-telescope/telescope.nvim', tag = '0.1.0',
 	  -- or                            , branch = '0.1.x',
@@ -70,4 +65,48 @@ return require('packer').startup(function(use)
 		  vim.cmd('colorscheme rose-pine')
 	  end
   })
+
+
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = function()
+            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+            ts_update()
+        end,
+    }
+	
+    use 'ThePrimeagen/harpoon'
+
+    use 'mbbill/undotree'
+
+    use 'tpope/vim-fugitive'
+    use {
+  	'VonHeikemen/lsp-zero.nvim',
+  	branch = 'v2.x',
+  	requires = {
+    	-- LSP Support
+    	{'neovim/nvim-lspconfig'},             -- Required
+    	{                                      -- Optional
+      	'williamboman/mason.nvim',
+      	run = function()
+        	pcall(vim.cmd, 'MasonUpdate')
+      	end,
+    	},
+    	{'williamboman/mason-lspconfig.nvim'}, -- Optional
+    	-- Autocompletion
+    	{'hrsh7th/nvim-cmp'},     -- Required
+    	{'hrsh7th/cmp-nvim-lsp'}, -- Required
+    	{'L3MON4D3/LuaSnip'},     -- Required
+  		}
+   	}
+
+	use { "zbirenbaum/copilot.lua" }
+
+	use {
+  	"zbirenbaum/copilot-cmp",
+  	after = { "copilot.lua" },
+  	config = function ()
+    		require("copilot_cmp").setup()
+  	end
+	}
 end)
