@@ -202,8 +202,8 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 bindsym $mod+BackSpace mode "$mode_system"
-
-exec_always --no-startup-id "setxkbmap -layout tr,us -option 'grp:lalt_lshift_toggle'"
+bindsym $mod+B exec blueman-manager
+exec_always --no-startup-id "setxkbmap -layout us,tr -option 'grp:lalt_lshift_toggle'"
 #Arranges The Monitors
 #BS
 #exec xrandr --output HDMI-1-0 --mode 1920x1080 --right-of eDP-1
@@ -218,11 +218,14 @@ exec /home/taymazturkmen/xrandr_Startup.sh
 #exec pacman -Syy
 
 #sets wallpaper
-exec nitrogen --set-tiled /$HOME/Downloads/alanturing.png
+#exec nitrogen --set-tiled /$HOME/Downloads/alanturing.png
+#exec nitrogen --set-tiled /$HOME/Pictures/Wallpapers/catppuccinCurveComposite4k.png
+exec nitrogen --restore
 exec caffeine
-
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #starts compositor
-exec --no-startup-id picom -CGb
+exec --no-startup-id picom --experimental-backends --backend glx --xrender-sync-fence --config ~/.config/picom/picom.conf
+#exec --no-startup-id compton
 
 # Polybar
 #exec  /home/taymazturkmen/.config/polybar/launch.sh
@@ -257,15 +260,15 @@ exec optimus-manager-qt
 #bindsym $mod+d exec --no-startup-id rofi -show drun
 bindsym $mod+d exec --no-startup-id "rofi -show combi -combi-modi window,drun,run -modi combi"
 #bindsym $mod+d exec dmenu_run
-exec pulseaudio --kill
-exec pulseaudio --check
-exec pulseaudio --start
+#exec pulseaudio --kill
+#exec pulseaudio --check
+#exec pulseaudio --start
 
 #Start some additional programs
 exec element-desktop 
 exec thunderbird
 
-or_window [class="^.*"] border pixel 1
+for_window [class="^.*"] border pixel 1
 
 # Aesthetics
 smart_gaps on
