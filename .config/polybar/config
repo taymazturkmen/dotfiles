@@ -1,180 +1,278 @@
-[colors]
-bg = #282828
-bg-light = #2a2a3f
-fg = #fff2d1
-fg-dark = #ede0be
-gold = #ffd15e
-yellow = #d9d17c
-lime = #c8d97c
-green = #b4d97c
-emerald = #8cd97c
-teal = #4cad83
-teal-dark = #1b825f
-red = #ff5555
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
 
-[bar/main]
-font-0 = "FiraCode Nerd Font:pixelsize=12;2"
-font-1 = "Source Sans Variable:pixelsize=11;2"
-font-2 = "Inter:pixelsize=12:style=Bold;2"
-font-3 = "Inter:pixelsize=12;2"
-font-4 = cryptocoins:style=Regular;0
-font-5 = FontAwesome:style=Regular:pixelsize=17
+[global/wm]
+include-file = $HOME/.config/polybar/colors.ini
 
+[bar/example]
 monitor = ${env:MONITOR:}
-monitor-fallback = eDP-1
-
-background = ${colors.bg}
-foreground = ${colors.fg}
-enable-ipc = true
-
 width = 100%
-height = 25
+height = 22
+radius = 0.0
+fixed-center = true
+top = yes
+bottom = no
+override-redirect = false
 
-modules-left = i3 todoist pulseaudio-control dunst
-modules-center = xwindow
-modules-right = player-mpris-tail popup-calendar xkeyboard filesystem wlan pulseaudio battery date
+foreground = ${colors.surface}
+background = ${colors.base}
 
-padding-left = 2
+; Under-/overline pixel size and argb color
+; Individual values can be defined using:
+;   {overline,underline}-size
+;   {overline,underline}-color
+line-size = 1
+line-color = #dfdfdf
+
+border-top-size = 0
+border-bottom-size = 0
+border-left-size = 0
+border-right-size = 0
+
+padding-left = 0
 padding-right = 0
 
-module-margin = 1
+module-margin-left = 0
+module-margin-right = 0
 
-border-bottom-size = 2
-border-bottom-color = ${colors.bg-light}
+font-0 = Hack:pixelsize=9;3
+font-1 = "Wuncon Siji:pixelsize=10;3"
+#font-1 = Weather Icons:style=Regular:size=10;2
+font-2 = FontAwesome5Free:style=Solid:pixelsize=10;3
+font-3 = FontAwesome5Brands:style=Solid:pixelsize=10;3
+font-4 = FontAwesome6Free:style=Solid:size=10;3
+font-5 = FontAwesome6Free:style=Regular:size=10;3
+font-6 = FontAwesome6Brands:style=Regular:size=10;3
+enable-ipc = true
+modules-left = i3 sp2 info-hackspeed sp2 pulseaudio-control-input sp2 pulseaudio-control-output
+modules-center = xwindow
+modules-right = notion sp1 uair weather sp1 spotify spotify-shuffle spotify-prev spotify-play-pause spotify-next sp2 linux-ver sp1 updates sp2 date sp2 battery sp2 powermenu
 
 tray-position = right
-tray-background = ${colors.bg}
-tray-padding = 5
+tray-padding = 0
+tray-detached = false
+tray-maxsize = 14
+tray-scale = 1.0
+tray-background = ${colors.background-alt}
+tray-foreground = ${colors.foreground-alt}
+tray-offset-x = 0
+tray-offset-y = 0
 
-[module/i3]
-type = internal/i3
-index-sort = true
+wm-restack = i3
 
-label-focused = %name%
-label-focused-padding = 1
-label-focused-foreground = ${colors.gold}
-label-focused-background = ${colors.bg-light}
-label-focused-font = 3
+scroll-up = #i3.next
+scroll-down = #i3.prev
 
-label-unfocused = %name%
-label-unfocused-padding = 1
-label-unfocused-font = 2
-
+cursor-click = pointer
 [module/xwindow]
 type= internal/xwindow
-label = %title:0:100:...%
+label = %title%
 label-font = 2
 format-padding = 4
 
+[module/sp1]
+type = custom/text
+content = " | "
+content-foreground = #93A1A1
+content-background = ${colors.background-alt}
+
+[module/sp2]
+type = custom/text
+content = " |"
+content-foreground = #93A1A1
+content-background = ${colors.background-alt}
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+strip-wsnumbers = false
+enable-click = true
+enable-scroll = true
+
+label-mode = %mode%
+label-mode-padding = 1
+label-mode-foreground = ${colors.foreground-alt}
+label-mode-background = ${colors.background-alt}
+
+; focused = Active workspace on focused monitor
+label-focused = %index%
+label-focused-foreground = ${colors.foreground}
+label-focused-background = ${colors.background}
+label-focused-underline = ${colors.foreground-alt}
+label-focused-padding = 1
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index%
+label-unfocused-padding = ${self.label-focused-padding}
+label-unfocused-foreground = ${colors.foreground-alt}
+label-unfocused-background = ${colors.background-alt}
+
+; visible = Active workspace on unfocused monitor
+label-visible = %index%
+label-visible-foreground = ${self.label-focused-background}
+label-visible-background = ${self.label-focused-foreground}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-foreground = ${colors.foreground}
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+
+; Separator in between workspaces
+label-separator =
+label-separator-padding = 0
+label-separator-foreground = #fff
+
+[module/info-hackspeed]
+type = custom/script
+exec = ~/.config/polybar/scripts/info-hackspeed.sh
+tail = true
+
 [module/battery]
 type = internal/battery
+
+; This is useful in case the battery never reports 100% charge
+; Default: 100
+full-at = 99
+
+; format-low once this charge percentage is reached
+; Default: 10
+; New in version 3.6.0
+low-at = 5
+
+; Use the following command to list batteries and adapters:
+; $ ls -1 /sys/class/power_supply/
 battery = BAT0
-adapter = ADP0
+adapter = ADP1
 
-format-charging = <animation-charging> <label-charging>
-format-charging-foreground = ${colors.teal}
-label-charging-font = 2
+; If an inotify event haven't been reported in this many
+; seconds, manually poll for new values.
+;
+; Needed as a fallback for systems that don't report events
+; on sysfs/procfs.
+;
+; Disable polling by setting the interval to 0.
+;
+; Default: 5
+poll-interval = 5
 
-format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-foreground = ${colors.emerald}
-label-discharging-font = 2
+[module/weather]
+type = custom/script
+exec = ~/.config/polybar/scripts/weather-openmap.sh
+interval = 600
 
-format-full =  <label-full>
-format-full-foreground = ${colors.teal}
-label-full = full
-label-full-font = 2
+[module/linux-ver]
+type = custom/script
+exec = uname -r
+interval = 600
 
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-3 = 
-animation-charging-4 = 
-animation-charging-5 = 
-animation-charging-framerate = 250
-
-ramp-capacity-0 = 
-ramp-capacity-0-foreground = ${colors.red} 
-ramp-capacity-1 = 
-ramp-capacity-1-foreground = ${colors.red} 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-4 = 
-ramp-capacity-5 = 
-ramp-capacity-6 = 
-ramp-capacity-7 = 
-ramp-capacity-8 = 
-ramp-capacity-9 = 
-ramp-capacity-10 = 
+[module/updates]
+type = custom/script
+exec = ~/.config/polybar/scripts/arch_updates.sh
+interval = 60
+label = %output%
 
 [module/date]
 type = internal/date
+interval = 1
 
-format = "<label>"
-format-padding = 1
-format-background = ${colors.teal}
-format-foreground = ${colors.bg}
+time = "%a %d %I:%M %P"
 
-date =
-date-alt = %a, %b %d
-time = %H:%M
-time-alt = %H:%M:%S
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+format-prefix-background = ${colors.background-alt}
 
-label = %date% %time%
-label-font = 2
+label = %time%
+label-foreground = ${colors.foreground-alt}
+label-background = ${colors.background-alt}
 
-[module/wlan]
-type = internal/network
-interface = wlp7s0
+[module/volume]
+type = internal/alsa
 
-format-connected = 直 <label-connected>
-format-connected-foreground = ${colors.green}
-format-disconnected = 睊 <label-disconnected>
-format-disconnected-foreground = ${colors.red}
+; Soundcard to be used
+; Usually in the format hw:# where # is the card number
+; You can find the different card numbers in `/proc/asound/cards`
+master-soundcard = default
+speaker-soundcard = default
+headphone-soundcard = default
 
-label-connected = %essid%
-label-connected-font = 2
+; Name of the master, speaker and headphone mixers
+; Use the following command to list available mixer controls:
+; $ amixer scontrols | sed -nr "s/.*'([[:alnum:]]+)'.*/\1/p"
+; If master, speaker or headphone-soundcard isn't the default,
+; use `amixer -c # scontrols` instead where # is the number
+; of the master, speaker or headphone soundcard respectively
+;
+; Default: Master
+master-mixer = Master
 
-label-disconnected = no connection
+format-volume = "<label-volume><bar-volume>"
+label-volume = " "
+label-volume-foreground = ${colors.foreground-alt}
+label-volume-background = ${colors.background-alt}
 
-[module/xkeyboard]
-type = internal/xkeyboard
+format-muted-prefix = " "
+format-muted-foreground = ${colors.foreground-alt}
+format-muted-background = ${colors.background-alt}
+label-muted = MUTED
 
-format =  <label-layout><label-indicator>
-format-foreground = ${colors.yellow}
+bar-volume-width = 5
+bar-volume-foreground-0 = ${colors.foreground-alt}
+bar-volume-foreground-1 = ${colors.foreground-alt}
+bar-volume-foreground-2 = ${colors.foreground-alt}
+bar-volume-foreground-3 = ${colors.foreground-alt}
+bar-volume-foreground-4 = ${colors.foreground-alt}
+bar-volume-foreground-5 = ${colors.foreground-alt}
+bar-volume-foreground-6 = ${colors.foreground-alt}
+bar-volume-gradient = false
+bar-volume-indicator = []
+bar-volume-indicator-font = 1
+bar-volume-indicator-foreground = ${colors.foreground-alt}
+bar-volume-indicator-background = ${colors.background-alt}
+bar-volume-fill = -
+bar-volume-fill-font = 1
+bar-volume-fill-foreground = ${colors.foreground-alt}
+bar-volume-fill-background = ${colors.background-alt}
+bar-volume-empty = -
+bar-volume-empty-font = 1
+bar-volume-empty-foreground = ${colors.foreground-alt}
+bar-volume-empty-background = ${colors.background-alt}
 
-label-layout-font = 2
+[settings]
+throttle-output = 5
+throttle-output-for = 10
+;throttle-input-for = 30
+screenchange-reload = true
+compositing-background = over
+compositing-foreground = over
+compositing-overline = over
+compositing-border = over
 
-label-indicator-on-capslock = " but louder"
-label-indicator-on-capslock-font = 2 
-label-indicator-on-capslock-foreground = ${colors.red}
-
-[module/popup-calendar]
-type = custom/script
-exec = ~/polybar-scripts/popup-calendar.sh
-interval = 5
-click-left = ~/polybar-scripts/popup-calendar.sh --popup &
-#If you use a tiling window manager you should enable floating for yad-calendar. This example is for i3wm:
-#for_window [class="Yad" title="yad-calendar"] floating enable
-
-
-
-[module/player-mpris-tail]
-type = custom/script
-exec = ~/polybar-scripts/player-mpris-tail.py -f '{icon} {artist} - {title}'
-tail = true
-click-left = ~/polybar-scripts/player-mpris-tail.py previous &
-click-right = ~/polybar-scripts/player-mpris-tail.py next &
-click-middle = ~/polybar-scripts/player-mpris-tail.py play-pause &
-
-[module/todoist]
-
-type = custom/script
-exec = python -u ~/polybar-scripts/polybar-todoist.py
-tail = true
-click-left = xdg-open https://todoist.com
+[global/wm]
+margin-top = 5
+margin-bottom = 5
 
 
-[module/pulseaudio-control]
+[module/pulseaudio-control-output]
 type = custom/script
 tail = true
 format-underline = ${colors.cyan}
@@ -184,30 +282,106 @@ label-foreground = ${colors.foreground}
 # Icons mixed from Font Awesome 5 and Material Icons
 # You can copy-paste your options for each possible action, which is more
 # trouble-free but repetitive, or apply only the relevant ones (for example
-# --sink-blacklist is only needed for next-sink).
-exec = pulseaudio-control --icons-volume " , " --icon-muted " " --sink-nicknames-from "device.description" --sink-nickname "alsa_output.pci-0000_00_1b.0.analog-stereo:  Speakers" --sink-nickname "alsa_output.usb-Kingston_HyperX_Virtual_Surround_Sound_00000000-00.analog-stereo:  Headphones" listen
+# --node-blacklist is only needed for next-node).
+exec = pulseaudio-control --icons-volume " , " --icon-muted " " --node-nicknames-from "device.description" --node-nickname "alsa_output.pci-0000_00_1b.0.analog-stereo:  Speakers" --node-nickname "alsa_output.usb-Kingston_HyperX_Virtual_Surround_Sound_00000000-00.analog-stereo:  Headphones" listen
 click-right = exec pavucontrol &
 click-left = pulseaudio-control togmute
-click-middle = pulseaudio-control --sink-blacklist "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2" next-sink
+click-middle = pulseaudio-control --node-blacklist "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2" next-node
 scroll-up = pulseaudio-control --volume-max 130 up
 scroll-down = pulseaudio-control --volume-max 130 down
 
-[module/sinkswitch]
+[module/pulseaudio-control-input]
 type = custom/script
-exec = /home/taymazturkmen/polybar-scripts/sink-switch.sh
-interval = 1500
-click-left = /home/user/scripts/sink-switch.sh --speakers &
-click-right = /home/user/scripts/sink-switch.sh --headphones &
+tail = true
+format-underline = ${colors.cyan}
+label-padding = 2
+label-foreground = ${colors.foreground}
 
-[module/crypto]
+# Use --node-blacklist to remove the unwanted PulseAudio .monitor that are child of sinks
+exec = pulseaudio-control  --node-type input --icons-volume "" --icon-muted "" --node-nickname "alsa_output.pci-0000_0c_00.3.analog-stereo:  Webcam" --node-nickname "alsa_output.usb-Kingston_HyperX_Virtual_Surround_Sound_00000000-00.analog-stereo:  Headphones" --node-blacklist "*.monitor" listen
+click-right = exec pavucontrol &
+click-left = pulseaudio-control --node-type input togmute
+click-middle = pulseaudio-control --node-type input next-node
+scroll-up = pulseaudio-control --node-type input --volume-max 130 up
+scroll-down = pulseaudio-control --node-type input --volume-max 130 down
+
+
+[module/spotify]
 type = custom/script
-interval = 300
-exec = /home/taymazturkmen/polybar-scripts/polybar-crypto/crypto.py
+tail = true
+interval = 1
+; prefix symbol is shown before the text
+format-prefix = " "
+format = <label>
+exec = ~/polybar-scripts/polybar-spotify/scroll_spotify_status.sh
 
-[module/dunst]
+[module/spotify-shuffle]
 type = custom/ipc
-initial = 1
-format-foreground = ${colors.yellow}
+hook-0 = playerctl shuffle on -p spotify && echo ""
+hook-1 = playerctl shuffle off -p spotify && echo " "
+initial = 2
+format-padding = 1
+click-left = polybar-msg action "#spotify-shuffle.next"
 
-hook-0 = echo "%{A1:dunstctl set-paused true  && polybar-msg hook dunst 2:}NM%{A}" &
-hook-1 = echo "%{A1:dunstctl set-paused false && polybar-msg hook dunst 1:}M%{A}" &
+[module/spotify-prev]
+type = custom/script
+exec = echo "  "
+format = <label>
+click-left = playerctl previous -p spotify
+
+[module/spotify-play-pause]
+type = custom/ipc
+hook-0 = echo ""
+hook-1 = echo ""
+initial = 2
+format-padding = 1
+click-left = polybar-msg action "#spotify-play-pause.next" && playerctl play-pause -p spotify
+
+[module/spotify-next]
+type = custom/script
+exec = echo "  "
+format = <label>
+click-left = playerctl next -p spotify
+
+[module/uair]
+type = custom/script
+exec = uair
+label = %output%
+tail = true
+click-left = uairctl toggle
+
+[module/notion]
+type = custom/script
+interval = 10.0
+exec = python -u ~/polybar-scripts/polybar-notion/main.py
+tail = true
+click-left = xdg-open https://notion.so/
+
+[module/powermenu]
+type = custom/menu
+
+expand-right = true
+
+menu-0-0 = reboot
+menu-0-0-exec = menu-open-1
+menu-0-1 = shutdown
+menu-0-1-exec = menu-open-2
+
+menu-1-0 = back
+menu-1-0-exec = menu-open-0
+menu-1-1 = reboot
+menu-1-1-exec = systemctl reboot
+
+menu-2-0 = shutdown
+menu-2-0-exec = systemctl poweroff
+menu-2-1 = back
+menu-2-1-exec = menu-open-0
+
+format-spacing = 1 
+format-background = ${color.shade1}
+format-foreground = ${color.modulefg}
+format-padding = 1
+
+label-open = 
+label-close = 
+label-separator = |
